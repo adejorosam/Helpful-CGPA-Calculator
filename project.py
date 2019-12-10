@@ -1,37 +1,76 @@
 import mysql.connector
 
-print('Welcome to CGPA calculator. It allows you claculates your CGPA without stress.')
-no_of_courses = int(input('How many number of courses would you be filling in?'))
+print('Welcome to CGPA calculator. It allows you calculates your CGPA without stress.')
+try:
+    no_of_courses = int(input('How many number of courses would you be filling in?'))
+except ValueError:
+    print('Please enter a valid value not a string.')
+except NameError:
+    print('Please enter a valid value not a string')
+    
+
 total_unit = 0
 result_atm = 0 #Result at the moment
-for i in range(no_of_courses):
-    courses = input('Enter your course: ')
-    score = int(input('Enter your score: '))
-    unit = int(input('Enter the unit of the course: '))
-    total_unit += unit
-    if score >= 70:
-        result_atm += unit * 5
-    elif score >= 60:
-        result_atm += unit * 4
-    elif score >= 50:
-        result_atm += unit * 3
-    elif score >= 45:
-        result_atm += unit * 2
-    elif score >= 40:
-        result_atm += unit * 1
-    elif score <= 40:
-        result_atm += unit * 0
-    mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database = "testdb")
-    my_cursor = mydb.cursor()
-    sql = 'INSERT INTO cgpacalc (courses,unit,score,total_unit) VALUES (%s,%s,%s)'
-    value = (courses,unit,score)
-    my_cursor.execute(sql,value)
-    mydb.commit()
-print(f'Your CGPA is {result_atm/total_unit}')
+
+try:
+    for i in range(no_of_courses):
+
+        courses = input('Enter your course: ')
+        try:
+            score = int(input('Enter your score: '))
+            unit = int(input('Enter the unit of the course: '))
+        except  ValueError:
+            print('Please enter an integer: ')
+    
+        try:
+            total_unit += unit
+        except NameError:
+            print('Check your inputs and try again.')
+        
+        try:
+            if score >= 70:
+                result_atm += unit * 5
+            elif score >= 60:
+                result_atm += unit * 4
+            elif score >= 50:
+                result_atm += unit * 3
+            elif score >= 45:
+                result_atm += unit * 2
+            elif score >= 40:
+                result_atm += unit * 1
+            elif score <= 40:
+                result_atm += unit * 0
+        except NameError:
+            print('Erorr!') 
+        
+        try:
+            mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="",
+            database = "testdb")
+            my_cursor = mydb.cursor()
+            sql = 'INSERT INTO cgpacalc (courses,unit,score) VALUES (%s,%s,%s)'
+            value = (courses,unit,score)
+            my_cursor.execute(sql,value)
+            mydb.commit()
+        except mysql.connector.errors.InterfaceError:
+            print('Please switch on your database and try again.')
+except NameError:
+    print('Fix it!')
+
+try:
+    print(f'Your CGPA is {result_atm/total_unit}')
+except ZeroDivisionError:
+    print('Division by zero error')
+    
+
+my_cursor.execute('SELECT courses,unit,score FROM cgpacalc WHERE time=NOW()')
+my_result = my_cursor.fetchall()
+for x in my_result:
+    print(x)
+    
+
 
 
 
