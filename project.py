@@ -88,6 +88,7 @@ def CGPACalc():
         d = ('''SELECT courses,unit,score FROM cgpacalc WHERE name = %s''')
         my_cursor.execute(d,(username,))
         my_result = my_cursor.fetchall()
+        print(f'Hi {username}, your results are listed below.')
         for x in my_result:
             print(x)
             
