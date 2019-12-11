@@ -1,8 +1,13 @@
 import mysql.connector
 def checkAgain():
-    ask = input('You wanna check for a friend or you still wanna check again?')
-    while ask != 'Yes':
+    ask = input('You wanna check for a friend or you still wanna check again?').lower()
+    while ask == 'Yes':
         CGPACalc()
+        if ask == 'no':
+            print('Thanks for using this application!')
+            exit()
+        else:
+            checkAgain()
 
 
 
