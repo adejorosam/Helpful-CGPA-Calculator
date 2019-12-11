@@ -1,16 +1,16 @@
 import mysql.connector
 def checkAgain():
     ask = input('You wanna check for a friend or you still wanna check again?').lower()
-    while ask == 'Yes':
-        CGPACalc()
+    while True:
+        if ask == 'yes':
+            CGPACalc()
         if ask == 'no':
-            print('Thanks for using this application!')
+            print('Thanks for using this application.')
             exit()
         else:
-            checkAgain()
-
-
-
+            print('You entered a wrong input')
+            ask = input('You wanna check for a friend or you still wanna check again?').lower()
+            
 
 def CGPACalc():
     print('Welcome to CGPA calculator. It allows you calculates your CGPA without stress.')
@@ -74,19 +74,21 @@ def CGPACalc():
 
     try:
         print(f'Your CGPA is {result_atm/total_unit}')
+        
     except ZeroDivisionError:
         print('Division by zero error')
-        
+     
     try:
         my_cursor.execute('SELECT courses,unit,score FROM cgpacalc WHERE time=NOW()')
         my_result = my_cursor.fetchall()
         for x in my_result:
             print(x)
-            checkAgain()
+            
     except:
         print('Something went wrong!')
-        
-        
+
+    checkAgain()   
+       
 CGPACalc()
 
 
