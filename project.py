@@ -90,5 +90,3 @@ def CGPACalc():
     checkAgain()   
        
 CGPACalc()
-
-
