@@ -1,4 +1,9 @@
-import mysql.connector
+try:
+    import mysql.connector
+except ImportError:
+    print("Can't load modules for now!")
+
+
 def checkAgain():
     ask = input('You wanna check for a friend or you still wanna check again?').lower()
     while True:
@@ -14,6 +19,7 @@ def checkAgain():
 
 def CGPACalc():
     print('Welcome to CGPA calculator. It allows you calculates your CGPA without stress.')
+    username = input("I gotchu! What's the name?")
 
     try:
         no_of_courses = int(input('How many number of courses would you be filling in?'))
@@ -63,8 +69,8 @@ def CGPACalc():
                 password="",
                 database = "testdb")
                 my_cursor = mydb.cursor()
-                sql = 'INSERT INTO cgpacalc (courses,unit,score) VALUES (%s,%s,%s)'
-                value = (courses,unit,score)
+                sql = 'INSERT INTO cgpacalc (name,courses,unit,score) VALUES (%s,%s,%s,%s)'
+                value = (username,courses,unit,score)
                 my_cursor.execute(sql,value)
                 mydb.commit()
             except mysql.connector.errors.InterfaceError:
@@ -77,9 +83,10 @@ def CGPACalc():
         
     except ZeroDivisionError:
         print('Division by zero error')
-     
+    
     try:
-        my_cursor.execute('SELECT courses,unit,score FROM cgpacalc WHERE time=NOW()')
+        d = ('''SELECT courses,unit,score FROM cgpacalc WHERE name = %s''')
+        my_cursor.execute(d,(username,))
         my_result = my_cursor.fetchall()
         for x in my_result:
             print(x)
