@@ -60,7 +60,7 @@ def CGPACalc():
                     result_atm += unit * 2
                 elif score >= 40:
                     result_atm += unit * 1
-                elif score <= 40:
+                elif score <= 39:
                     result_atm += unit * 0
             except NameError:
                 print('Erorr!') 
