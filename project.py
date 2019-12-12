@@ -21,8 +21,8 @@ def checkAgain():
 def CGPACalc():
     print('Welcome to CGPA calculator. It allows you calculates your CGPA without stress.')
     username = input("I gotchu! What's the name?")
-    rando = str(randint(1,100000))
-    userando = username + rando
+    random_int = str(randint(1,100000))
+    peculiar_name = username + random_int
 
     try:
         no_of_courses = int(input('How many number of courses would you be filling in?'))
@@ -73,7 +73,7 @@ def CGPACalc():
                 database = "testdb")
                 my_cursor = mydb.cursor()
                 sql = 'INSERT INTO cgpacalc (name,courses,unit,score) VALUES (%s,%s,%s,%s)'
-                value = (userando,courses,unit,score)
+                value = (peculiar_name,courses,unit,score)
                 my_cursor.execute(sql,value)
                 mydb.commit()
             except mysql.connector.errors.InterfaceError:
@@ -89,11 +89,11 @@ def CGPACalc():
     
     try:
         d = ('''SELECT courses,unit,score FROM cgpacalc WHERE name = %s''')
-        my_cursor.execute(d,(userando,))
+        my_cursor.execute(d,(peculiar_name,))
         my_result = my_cursor.fetchall()
         print(f'Hi {username}, your results are listed below.')
         for x in my_result:
-            print(x)
+            print(x) 
             
     except:
         print('Something went wrong!')
