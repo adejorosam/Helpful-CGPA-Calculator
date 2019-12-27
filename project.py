@@ -77,7 +77,7 @@ def CGPACalc():
                 my_cursor.execute(sql,value)
                 mydb.commit()
             except mysql.connector.errors.InterfaceError:
-                print("It's not us. We will get it soretd out!")
+                print("It's not you, it's us. We will get it soretd out!")
     except NameError:
         print('Fix it!')
 
